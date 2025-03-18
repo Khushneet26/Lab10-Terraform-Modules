@@ -5,13 +5,23 @@ locals {
 
 # get the most recent ami for your packer ansible build
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami
-data "aws_ami" "ansible-nginx" {
+data "aws_ami" "ansible-name" {
   most_recent = true
-  owners      = ["self"]
+  owners      = ["099720109477"] # Canonical (Official Ubuntu AMIs)
 
   filter {
     name   = "name"
-    values = ["packer-ansible-nginx"]
+    values = ["ubuntu/images/*ubuntu-noble-24.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
   }
 }
 
